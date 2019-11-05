@@ -1,31 +1,13 @@
-public class Cell<T> {
+public class Cell<T extends Number<T>> {
 
-    private T value;
-    private Position position;
+    private T t;
 
-    public Cell(T value, Position position) {
-        this.value = value;
-        this.position = position;
+    public Cell(int x, int y) {
+        this.t = t;
     }
 
-    public Cell(T value, int x, int y) {
-        this.value = value;
-        this.position = new Position(x, y);
+    public T multiply(T asd) {
+        return t.multiply(asd);
     }
 
-    public T getValue() {
-        return value;
-    }
-
-    public void setValue(T value) {
-        this.value = value;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
 }

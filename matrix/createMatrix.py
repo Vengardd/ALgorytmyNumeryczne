@@ -4,22 +4,21 @@ from matrix.MyMatrix import MyMatrix
 import numpy
 import random
 
-size = 10 # z czego size potem będzie w pętli, od 0 do jakiejś tam dużej liczby
-maxRandomValue = 65536
+maxRandomValue = 65535
 minRandomValue = -65536
 fabric = NumberFabric()
-numberType = NumberType.FLOAT
+
 
 def createMatrix(size, numberType):
     matrix = [[None for i in range (0,size)] for j in range (0,size)]
     results = [None for i in range (0,size)]
     for i in range (0,size):
-        nominator = random.uniform(minRandomValue, maxRandomValue - 1)
-        number = fabric.createNumberFromType(numberType, nominator, maxRandomValue)
+        nominator = random.randint(minRandomValue, maxRandomValue)
+        number = fabric.createNumberFromType(numberType, nominator, maxRandomValue+1)
         results[i] = number.value
         for j in range (0,size):
-            nominator = random.uniform(minRandomValue, maxRandomValue-1)
-            number = fabric.createNumberFromType(numberType, nominator, maxRandomValue)
+            nominator = random.randint(minRandomValue, maxRandomValue)
+            number = fabric.createNumberFromType(numberType, nominator, maxRandomValue+1)
             matrix[i][j] = number.value
     # https://docs.scipy.org/doc/numpy/reference/generated/numpy.matmul.html
     # https://www.tutorialspoint.com/numpy/numpy_matmul.htm
@@ -27,7 +26,6 @@ def createMatrix(size, numberType):
     return MyMatrix(matrix, vector, results)
 
 def printMatrix(m, size):
-    for i in range(0, size):
-        print()
-        for j in range(0, size):
-            print(m.getValueFromPosition(i, j))
+    for i in range (0,size):
+        for k in range (0,size):
+            print(m.matrix[i][k])

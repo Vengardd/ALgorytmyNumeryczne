@@ -1,8 +1,8 @@
 from number.Number import Number
 from fractions import Fraction
 
-class FractionNumber(Number):
 
+class FractionNumber(Number):
     value = 0
 
     def __init__(self, numerator=0, denominator=0):

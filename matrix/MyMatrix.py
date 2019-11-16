@@ -12,6 +12,14 @@ class MyMatrix:
     def printResults(self):
         print(numpy.subtract(self.resultsGeneratedInGauss, self.resultsGeneratedIncreateMatrix))
 
+    # def __str__(self):
+    #     string = ""
+    #     for i in (0, self.size):
+    #        for j in (0, self.size):
+    #            string += (self.matrix[i][j])
+    #     return string
+    # to tak średnio chce działać, ale to działa jak toString() z javy
+
     def swapRows(self, x, y):
         temp = self.matrix[x]
         self.matrix[x] = self.matrix[y]
@@ -30,17 +38,17 @@ class MyMatrix:
     # http://www.math-cs.gordon.edu/courses/mat342/handouts/gauss.pdf?fbclid=IwAR3nPc8-mIXlRW0Vt7f78LQFb_22b4jGZ7mag4xHbLanei7Gw9FDmaf9aRE
     def gaussNone(self):
         for i in range(0, self.size-1):
-            for j in range(0, self.size):
+            for j in range(i+1, self.size):
                 if self.matrix[i][i] == 0:
                     raise Exception(ZeroDivisionError)
                 else:
-                    self.matrix[j][i] = -(self.matrix[j][i]) / self.matrix[i][i]
+                    self.matrix[j][i] = self.matrix[j][i] / self.matrix[i][i]
                 for k in range(i+1, self.size):
-                    self.matrix[j][k] += (self.matrix[j][i]*self.matrix[i][k])
+                    self.matrix[j][k] -= (self.matrix[j][i]*self.matrix[i][k])
         for i in range (0, self.size-1):
             for j in range(i+1, self.size):
-                self.vector[j] += (self.matrix[i][j]*self.vector[i])
-        for i in range (self.size-1, -1, -1):
+                self.vector[j] -= (self.matrix[j][i]*self.vector[i])
+        for i in range (self.size-1, 1, -1):
             foo = self.vector[i]
             for j in range(i+1, self.size):
                 foo -= (self.matrix[i][j] * self.resultsGeneratedInGauss[j])

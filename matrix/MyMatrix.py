@@ -1,3 +1,6 @@
+import numpy
+
+
 class MyMatrix:
     def __init__(self, matrix, vector, results):
         self.matrix = matrix
@@ -6,13 +9,8 @@ class MyMatrix:
         self.resultsGeneratedIncreateMatrix = results
         self.resultsGeneratedInGauss = [0 for i in range(0, self.size)]
 
-    # def __str__(self):
-    #     string = ""
-    #     for i in (0, self.size):
-    #        for j in (0, self.size):
-    #            string += (self.matrix[i][j])
-    #     return string
-    # to tak średnio chce działać, ale to działa jak toString() z javy
+    def printResults(self):
+        print(numpy.subtract(self.resultsGeneratedInGauss, self.resultsGeneratedIncreateMatrix))
 
     def swapRows(self, x, y):
         temp = self.matrix[x]
@@ -108,6 +106,11 @@ class MyMatrix:
                 foo -= (self.matrix[rows[i]][columns[j]] * self.resultsGeneratedInGauss[columns[j]])
             self.resultsGeneratedInGauss[columns[i]] = foo / self.matrix[rows[i]][columns[i]]
 
+    def __str__(self) -> str:
+        for i in range(0, self.size):
+            for k in range(0, self.size):
+                print(self.matrix[i][k])
+        return ""
 
 #          for i in range (0, self.size):       ???
 #             for j in range(0, i):             ???

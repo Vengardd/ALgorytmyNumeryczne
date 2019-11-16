@@ -3,7 +3,7 @@
 
 from number.NumberFabric import NumberFabric
 from number.NumberType import NumberType
-from matrix.createMatrix import createMatrix, printMatrix
+from matrix.MatrixGenerator import createMatrix, printMatrix
 from time import perf_counter
 
 size = 10 # z czego size potem będzie w pętli, od 0 do jakiejś tam dużej liczby (WAŻNE PRZY TESTACH)

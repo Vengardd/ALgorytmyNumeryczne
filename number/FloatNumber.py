@@ -7,17 +7,17 @@ class FloatNumber(Number):
     def __init__(self, numerator=0, denominator=1):
         self.value = numerator / denominator
 
+    def __add__(self, other):
+        return self.value + other.value
+
+    def __sub__(self, other):
+        return self.value - other.value
+
+    def __mul__(self, other):
+        return self.value * other.value
+
+    def __truediv__(self, other):
+        return self.value / other.value
+
     def print(self):
         print("float")
-
-    def add(self, other):
-        self.value = self.value + other.value
-
-    def substract(self, other):
-        self.value = self.value - other.value
-
-    def multiply(self, other):
-        self.value = self.value * other.value
-
-    def divide(self, other):
-        self.value = self.value / other.value

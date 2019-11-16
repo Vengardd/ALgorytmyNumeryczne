@@ -3,22 +3,25 @@ from fractions import Fraction
 
 
 class FractionNumber(Number):
-    value = 0
+    value = Fraction(0,1)
 
-    def __init__(self, numerator=0, denominator=0):
+    def __init__(self, numerator=0, denominator=1):
         self.value = Fraction(numerator, denominator)
 
-    def add(self, other):
-        pass
+    def __add__(self, other):
+        return self.value + other.value
 
-    def substract(self, other):
-        pass
+    def __sub__(self, other):
+        return self.value - other.value
 
-    def multiply(self, other):
-        pass
+    def __mul__(self, other):
+        return self.value * other.value
 
-    def divide(self, other):
-        pass
+    def __truediv__(self, other):
+        return self.value / other.value
+
+    def __str__(self) -> str:
+        return self.value.numerator / self.value.denominator
 
     def print(self):
         print("Fraction")

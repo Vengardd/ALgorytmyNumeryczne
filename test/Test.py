@@ -1,3 +1,5 @@
+import datetime
+
 from matrix.MatrixGenerator import MatrixGenerator
 from number.NumberType import NumberType
 
@@ -22,17 +24,26 @@ class Test:
             print(option)
             iterNumbers = iter(numbers)
             matrix = self.matrixGenerator.createMatrixFromGivenNumbers(size, option, iterNumbers)
+            a = datetime.datetime.now()
             matrix.gaussNone()
-            matrix.printResults()
+            b = datetime.datetime.now()
+            delta = b - a
+            print("Gauss.NONE" + ", " + option.__str__() + ": " + delta.__str__())
             iterNumbers = iter(numbers)
             matrix = self.matrixGenerator.createMatrixFromGivenNumbers(size, option, iterNumbers)
+            a = datetime.datetime.now()
             matrix.gaussPartial()
-            matrix.printResults()
+            b = datetime.datetime.now()
+            delta = b - a
+            print("Gauss.PARTIAL" + ", " +  option.__str__() + ": " + delta.__str__())
             iterNumbers = iter(numbers)
             matrix = self.matrixGenerator.createMatrixFromGivenNumbers(size, option, iterNumbers)
+            a = datetime.datetime.now()
             matrix.gaussComplete()
-            matrix.printResults()
+            b = datetime.datetime.now()
+            delta = b - a
+            print("Gauss.COMPLETE" + ", " +  option.__str__() + ": " + delta.__str__())
 
 
 test = Test()
-test.createTests(100)
+test.createTests(250)

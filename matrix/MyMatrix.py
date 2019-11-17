@@ -9,16 +9,17 @@ class MyMatrix:
         self.resultsGeneratedIncreateMatrix = results
         self.resultsGeneratedInGauss = [0 for i in range(0, self.size)]
 
+    def __copy__(self):
+        return MyMatrix(self.matrix[:], self.vector[:], self.resultsGeneratedIncreateMatrix[:])
+
     def printResults(self):
         print(numpy.subtract(self.resultsGeneratedInGauss, self.resultsGeneratedIncreateMatrix))
 
-    # def __str__(self):
-    #     string = ""
-    #     for i in (0, self.size):
-    #        for j in (0, self.size):
-    #            string += (self.matrix[i][j])
-    #     return string
-    # to tak średnio chce działać, ale to działa jak toString() z javy
+    def __str__(self) -> str:
+        for i in range(0, self.size):
+            for k in range(0, self.size):
+                print(self.matrix[i][k])
+        return ""
 
     def swapRows(self, x, y):
         temp = self.matrix[x]
@@ -48,7 +49,7 @@ class MyMatrix:
         for i in range (0, self.size-1):
             for j in range(i+1, self.size):
                 self.vector[j] -= (self.matrix[j][i]*self.vector[i])
-        for i in range (self.size-1, 1, -1):
+        for i in range (self.size-1, -1, -1):
             foo = self.vector[i]
             for j in range(i+1, self.size):
                 foo -= (self.matrix[i][j] * self.resultsGeneratedInGauss[j])
@@ -86,42 +87,37 @@ class MyMatrix:
 
     # https://au.mathworks.com/matlabcentral/fileexchange/13451-gauss-elimination-with-complete-pivoting
     def gaussComplete(self):
-        columns = [i for i in range (0, self.size)]
-        rows = [i for i in range (0, self.size)]
-        for i in range(0, self.size-1):
+        n = self.size
+        matrix = self.matrix
+        columns = [i for i in range(0, n)]
+        rows = [i for i in range(0, n)]
+        for i in range(0, n - 1):
             maxValue = 0
-            for j in range(i, self.size):
-                for k in range(i, self.size):
-                    y = abs(self.matrix[rows[j]][columns[k]])
+            for j in range(i, n):
+                for k in range(i, n):
+                    y = abs(matrix[rows[j]][columns[k]])
                     if y > maxValue:
                         maxValue = y
-                        rowIndex = j
-                        columnIndex = k
-            self.swapRows(i, rowIndex)
-            self.swapColumns(i, columnIndex)
-            for j in range(i+1, self.size):
-                self.matrix[rows[j]][columns[i]] /= self.matrix[rows[i]][columns[i]]
-                for k in range (i+1, self.size):
-                    self.matrix[rows[j]][columns[k]] -= (self.matrix[rows[j]][columns[i]] * self.matrix[rows[i]][columns[k]])
-
-        for i in range(0, self.size-1):
-            for j in range(i+1, self.size):
-                self.vector[rows[j]] += (self.matrix[rows[j]][columns[i]] * self.vector[rows[i]])
-
-        for i in range(self.size-1, -1, -1):
+                        rowindex = j
+                        colindex = k
+            temp = rows[i]
+            rows[i] = rows[rowindex]
+            rows[rowindex] = temp
+            temp = columns[i]
+            columns[i] = columns[colindex]
+            columns[colindex] = temp
+            for j in range(i + 1, n):
+                matrix[rows[j]][columns[i]] /= matrix[rows[i]][columns[i]]
+                for k in range(i + 1, n):
+                    matrix[rows[j]][columns[k]] -= (matrix[rows[j]][columns[i]] * matrix[rows[i]][columns[k]])
+        for i in range(0, n - 1):
+            for j in range(i + 1, n):
+                self.vector[rows[j]] -= (matrix[rows[j]][columns[i]] * self.vector[rows[i]])
+        for i in range(n - 1, -1, -1):
             foo = self.vector[rows[i]]
-            for j in range(i+1, self.size):
-                foo -= (self.matrix[rows[i]][columns[j]] * self.resultsGeneratedInGauss[columns[j]])
-            self.resultsGeneratedInGauss[columns[i]] = foo / self.matrix[rows[i]][columns[i]]
+            for j in range(i + 1, n):
+                foo -= (matrix[rows[i]][columns[j]] * self.resultsGeneratedInGauss[columns[j]])
+            self.resultsGeneratedInGauss[columns[i]] = foo / matrix[rows[i]][columns[i]]
 
-    def __str__(self) -> str:
-        for i in range(0, self.size):
-            for k in range(0, self.size):
-                print(self.matrix[i][k])
-        return ""
-
-#          for i in range (0, self.size):       ???
-#             for j in range(0, i):             ???
-#                 self.matrix[i][j] = 0         ???
 
 

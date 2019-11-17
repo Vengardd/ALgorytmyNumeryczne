@@ -1,16 +1,17 @@
-from number.FractionNumber import FractionNumber
-from number.DecimalNumber import DecimalNumber
-from number.FloatNumber import FloatNumber
+from decimal import Decimal
+from fractions import Fraction
+
 from number.NumberType import NumberType
+
 
 class NumberFabric:
 
     def createNumberFromType(self, numberType, nominator, denominator):
         if numberType == NumberType.DECIMAL:
-            return DecimalNumber(nominator, denominator)
+            return Decimal(Decimal(nominator) / Decimal(denominator))
         elif numberType == NumberType.FLOAT:
-            return FloatNumber(nominator, denominator)
+            return nominator / denominator
         elif numberType == NumberType.FRACTION:
-            return FractionNumber(nominator, denominator)
+            return Fraction(nominator, denominator)
         else:
             raise Exception

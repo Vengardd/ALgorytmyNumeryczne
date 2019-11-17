@@ -18,12 +18,23 @@ class MatrixGenerator:
         results = [None for i in range(0, size)]
         for i in range(0, size):
             nominator = random.randint(self.minRandomValue, self.maxRandomValue)
-            number = self.fabric.createNumberFromType(numberType, nominator, self.maxRandomValue + 1)
-            results[i] = number.value
+            results[i] = self.fabric.createNumberFromType(numberType, nominator, self.maxRandomValue)
             for j in range(0, size):
                 nominator = random.randint(self.minRandomValue, self.maxRandomValue)
-                number = self.fabric.createNumberFromType(numberType, nominator, self.maxRandomValue + 1)
-                matrix[i][j] = number.value
+                matrix[i][j] = self.fabric.createNumberFromType(numberType, nominator, self.maxRandomValue)
+        # https://docs.scipy.org/doc/numpy/reference/generated/numpy.matmul.html
+        # https://www.tutorialspoint.com/numpy/numpy_matmul.htm
+        vector = numpy.matmul(matrix, results)
+        return MyMatrix(matrix, vector, results)
+
+
+    def createMatrixFromGivenNumbers(self, size, numberType, numbers):
+        matrix = [[None for i in range(0, size)] for j in range(0, size)]
+        results = [None for i in range(0, size)]
+        for i in range(0, size):
+            results[i] = self.fabric.createNumberFromType(numberType, next(numbers), self.maxRandomValue)
+            for j in range(0, size):
+                matrix[i][j] = self.fabric.createNumberFromType(numberType, next(numbers), self.maxRandomValue)
         # https://docs.scipy.org/doc/numpy/reference/generated/numpy.matmul.html
         # https://www.tutorialspoint.com/numpy/numpy_matmul.htm
         vector = numpy.matmul(matrix, results)

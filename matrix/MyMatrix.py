@@ -9,6 +9,9 @@ class MyMatrix:
         self.resultsGeneratedIncreateMatrix = results
         self.resultsGeneratedInGauss = [0 for i in range(0, self.size)]
 
+    def __copy__(self):
+        return MyMatrix(self.matrix[:], self.vector[:], self.resultsGeneratedIncreateMatrix[:])
+
     def printResults(self):
         print(numpy.subtract(self.resultsGeneratedInGauss, self.resultsGeneratedIncreateMatrix))
 
@@ -46,7 +49,7 @@ class MyMatrix:
         for i in range (0, self.size-1):
             for j in range(i+1, self.size):
                 self.vector[j] -= (self.matrix[j][i]*self.vector[i])
-        for i in range (self.size-1, 1, -1):
+        for i in range (self.size-1, -1, -1):
             foo = self.vector[i]
             for j in range(i+1, self.size):
                 foo -= (self.matrix[i][j] * self.resultsGeneratedInGauss[j])

@@ -1,5 +1,7 @@
 import datetime
 
+import numpy
+
 from matrix.MatrixGenerator import MatrixGenerator
 from number.NumberType import NumberType
 

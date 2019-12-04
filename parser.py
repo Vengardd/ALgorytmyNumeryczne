@@ -1,31 +1,48 @@
 findingCustomer = 'cutomer: '
 findingId = 'Id:   '
 findingRates = 'rating: '
+findingCategory = '|Books[283155]|Subjects[1000]|Religion & Spirituality[22]|Earth-Based Religions[12472]|Wicca[12484]' # lub jakieś inne; potem można ewentualnie zmienić na wklejanie do inputu
 userArray = []
+size = 0
 plik = open("amazon-meta-small.txt", "r", encoding="utf8")
-plik.readline()
-plik.read(13)
-k=""
-while True:
-    n = plik.read(1)
-    if (n == "\n"):
-        break
-    else:
-        k += n
 
-size = int(k)
 for line in plik:
-    b = line.find(findingCustomer)
-    b += len(findingCustomer)
-    if (b != len(findingCustomer)-1):
-        user = ""
-        while True:
-            if (line[b+1] == " "):
-                break
+    n = line.find(findingCategory)
+    n += len(findingCategory)
+    if (n != len(findingCategory)-1):
+        size += 1
+    else:
+        pass
+
+plik.seek(0)
+lineCounter = 0
+for line in plik:
+    lineCounter += 1
+    a = line.find(findingCategory)
+    a += len(findingCategory)
+    if (a != len(findingCategory)-1):
+        for line in plik:
+            b = line.find(findingCustomer)
+            b += len(findingCustomer)
+            if (b != len(findingCustomer)-1):
+                user = ""
+                while True:
+                    if (line[b+1] == " "):
+                        break
+                    else:
+                        user += line[b]
+                    b+=1
+                userArray.append(user)
             else:
-                user += line[b]
-            b+=1
-        userArray.append(user)
+                n = line.find(findingId)
+                if (n != -1):
+                    break
+                else:
+                    pass
+        plik.seek(0)
+        for foo in range(0, lineCounter):
+            plik.readline()
+            foo += 1
     else:
         pass
 
@@ -38,25 +55,19 @@ for item in userArray:
 
 # kolumny = users, rzędy = products
 ratingsArray = [[0 for i in range (0, len(cleanUserArray))] for i in range (0, size)]
-plik.close()
-plik = open("amazon-meta-small.txt", "r")
+
+plik.seek(0)
+
 rate = 0
 x = 0
 y = 0
 lineCounter = 0
+
 for line in plik:
     lineCounter += 1
-    a = line.find(findingId)
-    a += len(findingId)
-    if (a != len(findingId)-1):
-        xx = ""
-        while True:
-            if (line[a] == "\n"):
-                break
-            else:
-                xx += line[a]
-            a += 1
-        x = int(xx)
+    a = line.find(findingCategory)
+    a += len(findingCategory)
+    if (a != len(findingCategory)-1):
         for line in plik:
             b = line.find(findingCustomer)
             b += len(findingCustomer)
@@ -82,6 +93,7 @@ for line in plik:
                     break
                 else:
                     pass
+        x += 1
         plik.seek(0)
         for foo in range(0, lineCounter):
             plik.readline()

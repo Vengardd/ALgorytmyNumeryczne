@@ -1,3 +1,9 @@
+import random
+import numpy
+from numpy import linalg as LA
+
+# PARSER ########################################################
+
 findingCustomer = 'cutomer: '
 findingId = 'Id:   '
 findingRates = 'rating: '
@@ -102,4 +108,32 @@ for line in plik:
         pass
 
 plik.close()
-print(ratingsArray)
+
+# f(U, P) #######################################################
+
+lambdaFactor = 0.1
+d = 5
+
+uArray = [[random.random() for i in range (0, len(cleanUserArray))] for j in range (0, d)] # dxu
+pArray = [[random.random() for i in range (0, size)] for j in range (0, d)] # dxp
+
+uArrayTransposed = numpy.transpose(uArray)
+pArray = numpy.array(pArray)
+
+multipliedUP = numpy.matmul(uArrayTransposed, pArray)
+
+sumRUP = 0
+sumUU = 0
+sumPP = 0
+fup = 0
+foo = 0
+
+for u in range(0, len(cleanUserArray)):
+    for p in range(0, size):
+        sumRUP += (ratingsArray[p][u] - multipliedUP[u][p])**2
+        sumUU += LA.norm(uArrayTransposed[u])**2
+        sumPP += LA.norm(pArray[p])**2
+        foo = lambdaFactor * (sumUU + sumPP)
+        fup = sumRUP + foo
+
+print(fup)

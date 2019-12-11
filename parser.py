@@ -2,7 +2,7 @@ import random
 import numpy
 from numpy import linalg as LA
 
-# PARSER ########################################################
+# PARSER (old) ########################################################
 
 findingCustomer = 'cutomer: '
 findingId = 'Id:   '
@@ -131,9 +131,11 @@ foo = 0
 for u in range(0, len(cleanUserArray)):
     for p in range(0, size):
         sumRUP += (ratingsArray[p][u] - multipliedUP[u][p])**2
-        sumUU += LA.norm(uArrayTransposed[u])**2
-        sumPP += LA.norm(pArray[p])**2
-        foo = lambdaFactor * (sumUU + sumPP)
-        fup = sumRUP + foo
+for u in range(0, len(cleanUserArray)):
+    sumUU += LA.norm(uArrayTransposed[u])**2
+for p in range(0, size):
+    sumPP += LA.norm(pArray[p])**2
+foo = lambdaFactor * (sumUU + sumPP)
+fup = sumRUP + foo
 
 print(fup)

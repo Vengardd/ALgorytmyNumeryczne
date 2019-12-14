@@ -33,17 +33,18 @@ class Implementation:
     def fup(self):
         lambdaFactor = 0.1
         d = 5
+        uArray = numpy.array(self.u)
         uArrayTransposed = numpy.transpose(self.u)
         pArray = numpy.array(self.p)
         multipliedUP = numpy.matmul(uArrayTransposed, pArray)
         sumRUP = 0
         sumUU = 0
         sumPP = 0
+        for u in range(0, len(self.u[0])):
+            for p in range(0, len(self.p[0])):
+                sumRUP += (self.r[u][p] - multipliedUP[u][p]) ** 2
         for u in range(0, len(self.u)):
-            for p in range(0, len(self.p)):
-                sumRUP += (self.r[p][u] - multipliedUP[u][p]) ** 2
-        for u in range(0, len(self.u)):
-            sumUU += LA.norm(uArrayTransposed[u]) ** 2
+            sumUU += LA.norm(uArray[u]) ** 2
         for p in range(0, len(self.p)):
             sumPP += LA.norm(pArray[p]) ** 2
         foo = lambdaFactor * (sumUU + sumPP)

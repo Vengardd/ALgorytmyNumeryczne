@@ -30,6 +30,8 @@ class Implementation:
         m = np.random.random((h, w))
         return m
 
+    # Ten kawałek: Marta Rybarczyk
+
     def fup(self):
         lambdaFactor = 0.1
         d = 5
@@ -50,6 +52,8 @@ class Implementation:
         foo = lambdaFactor * (sumUU + sumPP)
         fup = sumRUP + foo
         print(fup)
+
+    #
 
     def do_alg(self):
         self.r, id_list = self.parser.getparsed()

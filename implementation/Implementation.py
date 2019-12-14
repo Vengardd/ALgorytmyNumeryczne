@@ -1,10 +1,14 @@
 # KOD : DOMINIKA CESARZ
 
 # W importach może wywalać błedy ale wszystko jest ok
+import os
+from os import listdir
+from os.path import isfile, join
 
 import numpy as np
-from Als import Als
-from parser_domi import Parser
+
+from implementation.Als import Als
+from implementation.parser_domi import Parser
 
 
 class Implementation:
@@ -38,6 +42,6 @@ class Implementation:
         r = self.als.createResult(self.u, self.p)
         return r
 
-
-imp = Implementation(0.1, 3, 50, "amazon-meta-small.txt", '|Books[283155]')
-print(imp.do_alg())
+imp = Implementation(0.1, 3, 3, "/home/vengard/PycharmProjects/AlgorytmyNumeryczne/implementation/amazon-meta-small.txt", '|Books[283155]')
+result = imp.do_alg()
+print(result)

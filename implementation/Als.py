@@ -87,9 +87,9 @@ class Als:
 
     def createResult(self, U, P):
         R = []
-        for i in range(0, len(input)):
+        for i in range(0, len(U[0])):
             R.append([])
-            for j in range(0, len(input[0])):
+            for j in range(0, len(P[0])):
                 transponedU = numpy.transpose(self.getColumn(U, i))
                 value = numpy.dot(transponedU, self.getColumn(P, j))
                 R[i].append(value)
@@ -117,8 +117,8 @@ U = [[0.12, 0.11, 0.10, 0.1],
      [0.9, 0.8, 0.7, 0.2],
      [0.6, 0.5, 0.4, 0.3]]  # d x n
 
-als = Als()
-for i in range(0, 50):
-    U, P = als.als(input, U, P, 0.1)
-R = als.createResult(U, P)
-print(R)
+# als = Als()
+# for i in range(0, 50):
+#     U, P = als.als(input, U, P, 0.1)
+# R = als.createResult(U, P)
+# print(R)

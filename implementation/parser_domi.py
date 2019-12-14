@@ -74,5 +74,5 @@ class Parser:
         return self.out, self.id_array
 
 
-p = Parser("amazon-meta-small.txt", '|Books[283155]')
-print(p.getparsed())
+# p = Parser("amazon-meta-small.txt", '|Books[283155]')
+# print(p.getparsed())

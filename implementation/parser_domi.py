@@ -71,4 +71,5 @@ class Parser:
                             self.user_array.append(customer)
                     self.flagRollback = True
         self.out = np.asarray(self.out)
+        self.plik.close()
         return self.out, self.id_array

@@ -12,6 +12,7 @@ class Implementation:
     u = None
     r = None
     rCopy = None
+    fup_r = None
 
     def __init__(self, lamb, d, iterations, path, category):
         self.lamb = lamb
@@ -43,7 +44,7 @@ class Implementation:
         for p in range(0, len(self.p)):
             sumPP += LA.norm(pArray[p]) ** 2
         foo = self.lamb * (sumUU + sumPP)
-        fup = sumRUP + foo
+        self.fup_r = sumRUP + foo
         # print(fup)
 
     def calculatingErrors(self, r):
@@ -51,10 +52,10 @@ class Implementation:
         qErrors = 1
         for i in range(0, len(self.rCopy)):
             for j in range(0, len(self.rCopy[0])):
-                if (self.rCopy[i][j] != 0):
+                if self.rCopy[i][j] != 0:
                     sumErrors += abs(self.rCopy[i][j] - r[i][j])
-                    qErrors+=1
-        aproxErrors = sumErrors/qErrors
+                    qErrors += 1
+        aproxErrors = sumErrors / qErrors
         return aproxErrors
 
     ##################################
@@ -76,3 +77,28 @@ class Implementation:
         aproxErrors = self.calculatingErrors(r)
         print("średnia błędu = ", aproxErrors)
         return r
+
+    def zb(self):
+        self.r, id_list = self.parser.getparsed()
+        self.rCopy = np.copy(self.r)
+        p_size = len(self.r[0])
+        u_size = len(self.r)
+        zbieznosc = []
+        foo1 = 0
+        foo2 = 0
+
+        self.p = self.generate(self.d, p_size)
+        self.u = self.generate(self.d, u_size)
+
+        for j in range(0, self.i):
+            self.u, self.p = self.als.als(self.r, self.u, self.p, self.lamb)
+            self.fup()
+            if j % 2 == 0:
+                foo1 = self.fup_r
+                if j != 0:
+                    zbieznosc.append((foo1 - foo2) / foo1)
+            elif j % 2 == 1:
+                foo2 = self.fup_r
+                zbieznosc.append((foo2 - foo1) / foo2)
+
+        return zbieznosc

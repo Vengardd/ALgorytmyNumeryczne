@@ -61,10 +61,7 @@ class Implementation:
 
     def do_alg(self):
         self.r, id_list = self.parser.getparsed()
-        self.rCopy = [[0 for i in range(0, len(self.r[0]))] for j in range(0, len(self.r))]
-        for i in range(0, len(self.r)):
-            for j in range(0, len(self.r[0])):
-                self.rCopy[i][j] = self.r[i][j]
+        self.rCopy = np.copy(self.r)
         p_size = len(self.r[0])
         u_size = len(self.r)
 

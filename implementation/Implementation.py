@@ -33,8 +33,6 @@ class Implementation:
     # Ten kawałek: Marta Rybarczyk
 
     def fup(self):
-        lambdaFactor = 0.1
-        d = 5
         uArray = numpy.array(self.u)
         uArrayTransposed = numpy.transpose(self.u)
         pArray = numpy.array(self.p)
@@ -49,7 +47,7 @@ class Implementation:
             sumUU += LA.norm(uArray[u]) ** 2
         for p in range(0, len(self.p)):
             sumPP += LA.norm(pArray[p]) ** 2
-        foo = lambdaFactor * (sumUU + sumPP)
+        foo = self.lamb * (sumUU + sumPP)
         fup = sumRUP + foo
         print(fup)
 

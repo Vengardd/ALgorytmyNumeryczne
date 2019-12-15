@@ -101,24 +101,4 @@ class Als:
             result.append(matrix[i][number])
         return result
 
-        # P1 P2 P3
 
-
-input = [[1, 2, 3],  # U1
-         [5, 0, 1],  # U2
-         [0, 1, 2],  # U3
-         [1, 4, 5]]  # U4      n x m
-
-P = [[0.1, 0.2, 0.3],
-     [0.4, 0.5, 0.6],
-     [0.7, 0.8, 0.9]]  # d x m
-
-U = [[0.12, 0.11, 0.10, 0.1],
-     [0.9, 0.8, 0.7, 0.2],
-     [0.6, 0.5, 0.4, 0.3]]  # d x n
-
-# als = Als()
-# for i in range(0, 50):
-#     U, P = als.als(input, U, P, 0.1)
-# R = als.createResult(U, P)
-# print(R)

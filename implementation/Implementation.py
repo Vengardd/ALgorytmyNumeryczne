@@ -1,11 +1,5 @@
 # KOD : DOMINIKA CESARZ
 
-# W importach może wywalać błedy ale wszystko jest ok
-import os
-from os import listdir
-from os.path import isfile, join
-
-import numpy
 import numpy as np
 from numpy import linalg as LA
 
@@ -17,6 +11,7 @@ class Implementation:
     p = None
     u = None
     r = None
+    rCopy = None
 
     def __init__(self, lamb, d, iterations, path, category):
         self.lamb = lamb
@@ -30,13 +25,13 @@ class Implementation:
         m = np.random.random((h, w))
         return m
 
-    # Ten kawałek: Marta Rybarczyk
+    # Ten kawałek: Marta Rybarczyk ###
 
     def fup(self):
-        uArray = numpy.array(self.u)
-        uArrayTransposed = numpy.transpose(self.u)
-        pArray = numpy.array(self.p)
-        multipliedUP = numpy.matmul(uArrayTransposed, pArray)
+        uArray = np.array(self.u)
+        uArrayTransposed = np.transpose(self.u)
+        pArray = np.array(self.p)
+        multipliedUP = np.matmul(uArrayTransposed, pArray)
         sumRUP = 0
         sumUU = 0
         sumPP = 0
@@ -49,12 +44,27 @@ class Implementation:
             sumPP += LA.norm(pArray[p]) ** 2
         foo = self.lamb * (sumUU + sumPP)
         fup = sumRUP + foo
-        print(fup)
+        # print(fup)
 
-    #
+    def calculatingErrors(self, r):
+        sumErrors = 0
+        qErrors = 1
+        for i in range(0, len(self.rCopy)):
+            for j in range(0, len(self.rCopy[0])):
+                if (self.rCopy[i][j] != 0):
+                    sumErrors += abs(self.rCopy[i][j] - r[i][j])
+                    qErrors+=1
+        aproxErrors = sumErrors/qErrors
+        return aproxErrors
+
+    ##################################
 
     def do_alg(self):
         self.r, id_list = self.parser.getparsed()
+        self.rCopy = [[0 for i in range(0, len(self.r[0]))] for j in range(0, len(self.r))]
+        for i in range(0, len(self.r)):
+            for j in range(0, len(self.r[0])):
+                self.rCopy[i][j] = self.r[i][j]
         p_size = len(self.r[0])
         u_size = len(self.r)
 
@@ -66,9 +76,6 @@ class Implementation:
             self.fup()
 
         r = self.als.createResult(self.u, self.p)
+        aproxErrors = self.calculatingErrors(r)
+        print("średnia błędu = ", aproxErrors)
         return r
-
-
-imp = Implementation(0.1, 3, 3, "amazon-meta-small.txt", '|Books[283155]')
-result = imp.do_alg()
-print(result)

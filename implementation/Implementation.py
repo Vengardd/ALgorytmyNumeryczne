@@ -44,16 +44,15 @@ class Implementation:
             sumPP += LA.norm(pArray[p]) ** 2
         foo = self.lamb * (sumUU + sumPP)
         fup = sumRUP + foo
-        # print(fup)
 
     def calculatingErrors(self, r):
         sumErrors = 0
-        qErrors = 1
+        qErrors = 0
         for i in range(0, len(self.rCopy)):
             for j in range(0, len(self.rCopy[0])):
                 if (self.rCopy[i][j] != 0):
                     sumErrors += abs(self.rCopy[i][j] - r[i][j])
-                    qErrors+=1
+                    qErrors += 1
         aproxErrors = sumErrors/qErrors
         return aproxErrors
 
@@ -70,9 +69,10 @@ class Implementation:
 
         for j in range(0, self.i):
             self.u, self.p = self.als.als(self.r, self.u, self.p, self.lamb)
+            self.r = self.als.createResult(self.u, self.p)
             self.fup()
 
-        r = self.als.createResult(self.u, self.p)
-        aproxErrors = self.calculatingErrors(r)
-        print("średnia błędu = ", aproxErrors)
-        return r
+        aproxErrors = self.calculatingErrors(self.r)
+        separator = ' '
+        ae = separator.join(["średnia błędu =", str(aproxErrors), "\n"])
+        return self.r, ae

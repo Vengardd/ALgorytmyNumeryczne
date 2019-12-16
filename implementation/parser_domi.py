@@ -9,7 +9,7 @@ class Parser:
     findingId = 'Id: +([0-9]+$)'
     findingRates = 'rating: +([0-9]+)'
 
-    out = [[0]]
+    out = [[]]
     id_array = []
     user_array = []
     ratings = []
@@ -28,13 +28,14 @@ class Parser:
     def __init__(self, filename, cat):
         self.plik = open(filename, "r", encoding="utf8")
         self.findingCategory = cat
+        self.id_array = []
 
     def append(self, out_temp, id_temp, ratings_temp, user_array_temp, id_array_temp):
         indexproduct = id_array_temp.index(id_temp)
         while len(out_temp) != len(user_array_temp):
             out_temp.append([0])
         for subarray in out_temp:
-            while len(subarray) != len(id_array_temp):
+            while len(subarray) < len(id_array_temp):
                 subarray.append(0)
         for i, user in enumerate(user_array_temp, 0):
             for j in ratings_temp:
@@ -47,7 +48,10 @@ class Parser:
             m = re.match(self.findingId, line)
             if m is not None and not self.flagId:
                 if self.flagRollback:
-                    self.out = self.append(self.out, self.id, self.ratings, self.user_array, self.id_array)
+                    if not self.ratings:
+                        self.id_array.remove(self.id)
+                    else:
+                        self.out = self.append(self.out, self.id, self.ratings, self.user_array, self.id_array)
                     self.ratings = []
                     self.flagRollback = False
                 self.id = int(m.group(1))
@@ -72,4 +76,5 @@ class Parser:
                     self.flagRollback = True
         self.out = np.asarray(self.out)
         self.plik.close()
+        self.out = np.delete(self.out, 0, 1)
         return self.out, self.id_array

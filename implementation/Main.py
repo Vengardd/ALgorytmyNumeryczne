@@ -2,7 +2,7 @@
 
 from implementation.test import Test
 
-cat = '|Books[283155]'
+cat = 'Religion & Spirituality[22]'
 filename50 = "amazon-meta-50.txt"
 filename300 = "amazon-meta-300.txt"
 filename1100 = "amazon-meta-1100.txt"

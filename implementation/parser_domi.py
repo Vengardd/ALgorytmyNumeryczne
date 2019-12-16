@@ -1,6 +1,7 @@
 # KOD : DOMINIKA CESARZ
 
 import re
+
 import numpy as np
 
 
@@ -9,7 +10,7 @@ class Parser:
     findingId = 'Id: +([0-9]+$)'
     findingRates = 'rating: +([0-9]+)'
 
-    out = [[0]]
+    out = [[]]
     id_array = []
     user_array = []
     ratings = []
@@ -47,7 +48,10 @@ class Parser:
             m = re.match(self.findingId, line)
             if m is not None and not self.flagId:
                 if self.flagRollback:
-                    self.out = self.append(self.out, self.id, self.ratings, self.user_array, self.id_array)
+                    if not self.ratings:
+                        self.id_array.remove(self.id)
+                    else:
+                        self.out = self.append(self.out, self.id, self.ratings, self.user_array, self.id_array)
                     self.ratings = []
                     self.flagRollback = False
                 self.id = int(m.group(1))
@@ -72,4 +76,5 @@ class Parser:
                     self.flagRollback = True
         self.out = np.asarray(self.out)
         self.plik.close()
+        self.out = np.delete(self.out, 0, 1)
         return self.out, self.id_array

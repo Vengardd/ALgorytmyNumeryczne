@@ -102,8 +102,3 @@ class Implementation:
                 zbieznosc.append((foo2 - foo1) / foo2)
 
         return zbieznosc
-
-
-i = Implementation(0.1, 5, 10, 500)
-r = i.do_alg()
-print(r)

@@ -14,7 +14,6 @@ class ControlledParser:
         s = 0
         id = 0
         list = []
-        print(list)
         valid_group = False
         reviews_count = 0
         for line in open('amazon-meta.txt', encoding="utf8"):
@@ -87,9 +86,3 @@ class ControlledParser:
                 matrix[userIndex][productIndex] = dto.rating
             matrix = np.asfarray(matrix, float)
             return matrix
-
-
-parser = ControlledParser()
-parser.parseToNewFile(5000)
-matrix = parser.parseFromNewFile()
-print(matrix, sep="\n")

@@ -13,8 +13,6 @@ class Test:
                 result, ae = imp.do_alg()
                 b = datetime.now()
                 delta = b - a
-                print("wykonania ALS = ", i, ", d = ", j, ", lambda = ", k, ", czas = ", delta)
-                print(result)
                 separator = ' '
                 results = separator.join(["wykonania ALS = ", str(i), ", d = ", str(j), ", lambda = ", str(k), ", czas = ", str(delta),"\n\n"])
                 plik.write(ae)
@@ -27,6 +25,5 @@ class Test:
             for j in d:
                 imp = Implementation(k, j, i, max_p)
                 result = imp.zb()
-                print(result)
                 plik.write(str(result))
         plik.close()

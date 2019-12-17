@@ -34,11 +34,6 @@ class ControlledParser:
                     reviews_count = int(match_reviews_count.group(1))
             match_customer = re.search('cutomer:[ ]+([A-Za-z]+[\d@]+[\w@]*)', line)
             match_rating = re.search('rating:[ ]+([0-9])', line)
-            # if match_reviews_count != None and int(match_reviews_count.group(1)) > 20 :
-            #     print(match_reviews_count.group(1))
-            #     s+=1
-            # if s>20:
-            #     break
             if match_customer != None and valid_group:
                 if reviews_count > 20:
                     if id_temp != id:

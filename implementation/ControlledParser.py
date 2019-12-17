@@ -1,6 +1,6 @@
 import csv
 import re
-
+import numpy as np
 from implementation.RatingDto import RatingDto
 
 
@@ -17,7 +17,7 @@ class ControlledParser:
         print(list)
         valid_group = False
         reviews_count = 0
-        for line in open('/home/vengard/PycharmProjects/AlgorytmyNumeryczne/implementation/amazon-meta.txt', encoding="utf8"):
+        for line in open('amazon-meta.txt', encoding="utf8"):
             match_id = re.search('Id:   (\d+)', line)
             if match_id != None:
                 id = match_id.group(1)
@@ -52,7 +52,7 @@ class ControlledParser:
             writer.writerows(list)
 
     def parseFromNewFile(self):
-        with open('/home/vengard/PycharmProjects/AlgorytmyNumeryczne/test/testBook.csv') as csv_file:
+        with open('testbook.csv') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             line_count = 0
             usersCount = {}
@@ -85,9 +85,11 @@ class ControlledParser:
                 productIndex = sortedProducts.index(dto.product)
                 userIndex = sortedUsers.index(dto.user)
                 matrix[userIndex][productIndex] = dto.rating
+            matrix = np.asfarray(matrix, float)
             return matrix
 
 
 parser = ControlledParser()
+parser.parseToNewFile(5000)
 matrix = parser.parseFromNewFile()
-print(matrix)
+print(matrix, sep="\n")

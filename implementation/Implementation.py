@@ -2,10 +2,8 @@
 
 import numpy as np
 from numpy import linalg as LA
-
+from implementation.ControlledParser import ControlledParser
 from implementation.Als import Als
-from implementation.parser_domi import Parser
-
 
 class Implementation:
     p = None
@@ -14,12 +12,13 @@ class Implementation:
     rCopy = None
     fup_r = None
 
-    def __init__(self, lamb, d, iterations, path, category):
+    def __init__(self, lamb, d, iterations, max_p):
         self.lamb = lamb
         self.d = d
-        self.parser = Parser(path, category)
+        self.parser = ControlledParser()
         self.als = Als()
         self.i = iterations
+        self.max_p = max_p
 
     @staticmethod
     def generate(h, w):
@@ -61,7 +60,8 @@ class Implementation:
     ##################################
 
     def do_alg(self):
-        self.r, id_list = self.parser.getparsed()
+        self.parser.parseToNewFile(self.max_p)
+        self.r = self.parser.parseFromNewFile()
         self.rCopy = np.copy(self.r)
         p_size = len(self.r[0])
         u_size = len(self.r)
@@ -79,8 +79,8 @@ class Implementation:
         return r
 
     def zb(self):
-        self.r, id_list = self.parser.getparsed()
-        self.rCopy = np.copy(self.r)
+        self.parser.parseToNewFile(self.max_p)
+        self.r = self.parser.parseFromNewFile()
         p_size = len(self.r[0])
         u_size = len(self.r)
         zbieznosc = []
@@ -102,3 +102,8 @@ class Implementation:
                 zbieznosc.append((foo2 - foo1) / foo2)
 
         return zbieznosc
+
+
+i = Implementation(0.1, 5, 10, 500)
+r = i.do_alg()
+print(r)

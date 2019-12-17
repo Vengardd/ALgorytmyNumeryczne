@@ -13,5 +13,3 @@ class Test:
                 b = datetime.now()
                 delta = b - a
                 print("wykonania ALS = ", i, ", d = ", j, ", lambda = ", k, ", czas = ", delta)
-                # print(result)
-                # print()

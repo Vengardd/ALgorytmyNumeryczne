@@ -105,3 +105,5 @@ class Implementation:
                 zbieznosc.append((foo2 - foo1) / foo2)
 
         return zbieznosc
+
+

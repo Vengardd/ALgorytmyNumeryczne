@@ -16,6 +16,7 @@ class ControlledParser:
         list = []
         valid_group = False
         reviews_count = 0
+        id_temp = -1
         for line in open('amazon-meta.txt', encoding="utf8"):
             match_id = re.search('Id:   (\d+)', line)
             if match_id != None:
@@ -40,11 +41,13 @@ class ControlledParser:
             #     break
             if match_customer != None and valid_group:
                 if reviews_count > 20:
+                    if id_temp != id:
+                        s += 1
                     list.append([id, match_customer.group(1), match_rating.group(1)])
-                    s += 1
+                    id_temp = id
             else:
                 continue
-            if s > maxProducts:
+            if s >= maxProducts:
                 break
         with open('testBook.csv', 'w', newline='') as file:
             writer = csv.writer(file)
@@ -84,5 +87,6 @@ class ControlledParser:
                 productIndex = sortedProducts.index(dto.product)
                 userIndex = sortedUsers.index(dto.user)
                 matrix[userIndex][productIndex] = dto.rating
+            print(matrix)
             matrix = np.asfarray(matrix, float)
             return matrix

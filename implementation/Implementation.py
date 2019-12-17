@@ -78,8 +78,9 @@ class Implementation:
 
         r = self.als.createResult(self.u, self.p)
         aproxErrors = self.calculatingErrors(r)
-        print("średnia błędu = ", aproxErrors)
-        return r
+        separator = ' '
+        ae = separator.join(["średnia błędu =", str(aproxErrors), "\n"])
+        return r, ae
 
     def zb(self):
         self.parser.parseToNewFile(self.max_p)
@@ -97,12 +98,12 @@ class Implementation:
             self.u, self.p = self.als.als(self.r, self.u, self.p, self.lamb)
             self.fup()
             if j % 2 == 0:
-                foo1 = self.fup_r
+                foo1 = self.fup()
                 if j != 0:
-                    zbieznosc.append((foo1 - foo2) / foo1)
+                    zbieznosc.append((abs(foo1 - foo2) / foo1))
             elif j % 2 == 1:
-                foo2 = self.fup_r
-                zbieznosc.append((foo2 - foo1) / foo2)
+                foo2 = self.fup()
+                zbieznosc.append((abs(foo1 - foo2) / foo1))
 
         return zbieznosc
 

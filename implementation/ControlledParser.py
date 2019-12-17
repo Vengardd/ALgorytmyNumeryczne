@@ -47,9 +47,10 @@ class ControlledParser:
                     id_temp = id
             else:
                 continue
-            if s >= maxProducts:
+            if s > maxProducts:
                 break
         with open('testBook.csv', 'w', newline='') as file:
+            list = list[:-1]
             writer = csv.writer(file)
             writer.writerows(list)
 
@@ -87,6 +88,5 @@ class ControlledParser:
                 productIndex = sortedProducts.index(dto.product)
                 userIndex = sortedUsers.index(dto.user)
                 matrix[userIndex][productIndex] = dto.rating
-            print(matrix)
             matrix = np.asfarray(matrix, float)
             return matrix

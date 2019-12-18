@@ -10,15 +10,19 @@ lamb3 = [0.1]
 
 t = Test()
 
-t.testing(5, d3, lamb3, 50, "test-iteracje-5.txt")
-t.testing(20, d3, lamb3, 50, "test-iteracje-20.txt")
+# Odkomentuj sobie co chcesz albo pisz na podstawie tego, jak wolisz :D
 
+'''t.testing(5, d3, lamb3, 50, "test-iteracje-5.txt")
+t.testing(20, d3, lamb3, 50, "test-iteracje-20.txt")
+print("Testy iteracji ok")
 t.testing(20, d3, lamb1, 50, "test-stale-d.txt")
 t.testing(20, d1, lamb3, 50, "test-stala-lambda.txt")
 t.testing(20, d2, lamb3, 50, "test-stala-lambda-2.txt")
-
+print("Testy stałych ok")
 t.testing(20, d3, lamb3, 50, "test-czas-50.txt")
 t.testing(20, d3, lamb3, 300, "test-czas-300.txt")
 t.testing(20, d3, lamb3, 1100, "test-czas-1100.txt")
-
+print("Testy czasu ok")
 t.testingZB(50, d3, lamb3, 50, "test-zbieznosc.txt")
+print("Testy zbieżności ok") '''
+print("DONE")

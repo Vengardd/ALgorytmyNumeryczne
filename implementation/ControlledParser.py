@@ -44,13 +44,13 @@ class ControlledParser:
                 continue
             if s > maxProducts:
                 break
-        with open('testBook.csv', 'w', newline='') as file:
+        with open('testBook.csv', 'w', newline='', encoding='latin-1') as file:
             list = list[:-1]
             writer = csv.writer(file)
             writer.writerows(list)
 
     def parseFromNewFile(self):
-        with open('testbook.csv') as csv_file:
+        with open('testbook.csv', encoding='latin-1') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             line_count = 0
             usersCount = {}

@@ -2,10 +2,8 @@
 
 import numpy as np
 from numpy import linalg as LA
-
+from implementation.ControlledParser import ControlledParser
 from implementation.Als import Als
-from implementation.parser_domi import Parser
-
 
 class Implementation:
     p = None
@@ -14,12 +12,13 @@ class Implementation:
     rCopy = None
     fup_r = None
 
-    def __init__(self, lamb, d, iterations, path, category):
+    def __init__(self, lamb, d, iterations, max_p):
         self.lamb = lamb
         self.d = d
-        self.parser = Parser(path, category)
+        self.parser = ControlledParser()
         self.als = Als()
         self.i = iterations
+        self.max_p = max_p
 
     @staticmethod
     def generate(h, w):
@@ -38,31 +37,35 @@ class Implementation:
         sumPP = 0
         for u in range(0, len(self.u[0])):
             for p in range(0, len(self.p[0])):
-                sumRUP += (self.r[u][p] - multipliedUP[u][p]) ** 2
+                if self.r[u][p] != 0:
+                    sumRUP += (self.r[u][p] - multipliedUP[u][p]) ** 2
         for u in range(0, len(self.u)):
             sumUU += LA.norm(uArray[u]) ** 2
         for p in range(0, len(self.p)):
             sumPP += LA.norm(pArray[p]) ** 2
         foo = self.lamb * (sumUU + sumPP)
-        self.fup_r = sumRUP + foo
-        # print(fup)
+        return sumRUP + foo
 
     def calculatingErrors(self, r):
         sumErrors = 0
+        weird = 0
         qErrors = 1
-        for i in range(0, len(self.rCopy)):
-            for j in range(0, len(self.rCopy[0])):
-                if self.rCopy[i][j] != 0:
-                    sumErrors += abs(self.rCopy[i][j] - r[i][j])
-                    qErrors += 1
+        for i in range(0, len(self.r)):
+            for j in range(0, len(self.r[0])):
+                if self.r[i][j] != 0:
+                    weird = 0
+                    for k in range (0, self.d):
+                        weird += self.u[k][i] * self.p[k][j]
+                        qErrors += 1
+                    sumErrors += abs(self.r[i][j] - weird)
         aproxErrors = sumErrors / qErrors
         return aproxErrors
 
     ##################################
 
     def do_alg(self):
-        self.r, id_list = self.parser.getparsed()
-        self.rCopy = np.copy(self.r)
+        self.parser.parseToNewFile(self.max_p)
+        self.r = self.parser.parseFromNewFile()
         p_size = len(self.r[0])
         u_size = len(self.r)
 
@@ -75,12 +78,13 @@ class Implementation:
 
         r = self.als.createResult(self.u, self.p)
         aproxErrors = self.calculatingErrors(r)
-        print("średnia błędu = ", aproxErrors)
-        return r
+        separator = ' '
+        ae = separator.join(["średnia błędu =", str(aproxErrors), "\n"])
+        return r, ae
 
     def zb(self):
-        self.r, id_list = self.parser.getparsed()
-        self.rCopy = np.copy(self.r)
+        self.parser.parseToNewFile(self.max_p)
+        self.r = self.parser.parseFromNewFile()
         p_size = len(self.r[0])
         u_size = len(self.r)
         zbieznosc = []
@@ -94,11 +98,13 @@ class Implementation:
             self.u, self.p = self.als.als(self.r, self.u, self.p, self.lamb)
             self.fup()
             if j % 2 == 0:
-                foo1 = self.fup_r
+                foo1 = self.fup()
                 if j != 0:
-                    zbieznosc.append((foo1 - foo2) / foo1)
+                    zbieznosc.append((abs(foo1 - foo2) / foo1))
             elif j % 2 == 1:
-                foo2 = self.fup_r
-                zbieznosc.append((foo2 - foo1) / foo2)
+                foo2 = self.fup()
+                zbieznosc.append((abs(foo1 - foo2) / foo1))
 
         return zbieznosc
+
+

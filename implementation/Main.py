@@ -1,14 +1,28 @@
 # KOD: Marta Rybarczyk
-
+# 50/300/1100
 from implementation.test import Test
 
-cat = 'Religion & Spirituality[22]'
-filename50 = "amazon-meta-50.txt"
-filename300 = "amazon-meta-300.txt"
-filename1100 = "amazon-meta-1100.txt"
-names = [filename50, filename300, filename1100]
-d = [1, 2, 3, 4, 5]
-lamb = [0.05, 0.1, 0.2]
+d1 = [1, 2, 3, 4, 5]
+d2 = [6, 12, 18, 24, 30]
+d3 = [3]
+lamb1 = [0.001, 0.01, 0.1, 0.5, 1]
+lamb3 = [0.1]
+
 t = Test()
-t.testing(5, names, d, lamb, cat)
-t.testing(50, names, d, lamb, cat)
+
+# Odkomentuj sobie co chcesz albo pisz na podstawie tego, jak wolisz :D
+
+'''t.testing(5, d3, lamb3, 50, "test-iteracje-5.txt")
+t.testing(20, d3, lamb3, 50, "test-iteracje-20.txt")
+print("Testy iteracji ok")
+t.testing(20, d3, lamb1, 50, "test-stale-d.txt")
+t.testing(20, d1, lamb3, 50, "test-stala-lambda.txt")
+t.testing(20, d2, lamb3, 50, "test-stala-lambda-2.txt")
+print("Testy stałych ok")
+t.testing(20, d3, lamb3, 50, "test-czas-50.txt")
+t.testing(20, d3, lamb3, 300, "test-czas-300.txt")
+t.testing(20, d3, lamb3, 1100, "test-czas-1100.txt")
+print("Testy czasu ok")
+t.testingZB(50, d3, lamb3, 50, "test-zbieznosc.txt")
+print("Testy zbieżności ok") '''
+print("DONE")

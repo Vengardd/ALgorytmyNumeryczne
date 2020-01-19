@@ -8,15 +8,16 @@ import matrix.MyMatrix as mm
 import numpy
 import approximation.GSown as GSown
 import approximation.GS as GS
+import approximation.GaussSeidelScipyParse as GSparse
 
 class Test:
 
-    def __init__(self, filename, result):
-        self.data = filename
-        self.result = result
+    def __init__(self, filename, result, xy1, xy2, tolerance, iterations, name):
+        self.result = open(result, 'a', encoding='utf-8')
+        self.xy1 = open(xy1, 'a', encoding='utf-8')
+        self.xy2 = open(xy2, 'a', encoding='utf-8')
         self.delta = []
-        self.csivalues = []
-        self.array1 = parserek(self.data)
+        self.array1 = parserek(filename)
         self.array2 = clean(numpy.copy(self.array1).tolist())
         self.array2 = self.range_clean(self.array1, self.array2)
         self.csi1 = approximation.csi_domi.CSI_domi(self.array1)
@@ -24,55 +25,63 @@ class Test:
         self.zeros1 = [0 for i in range(0, len(self.csi1.matrix))]
         self.zeros2 = [0 for i in range(0, len(self.csi2.matrix))]
         self.sum = 0
+        self.tolerance = tolerance
+        self.iterations = iterations
+        self.nazwatestu = name
+
+    def gsparse(self):
+        # GAUSS-SEIDEL USING SCIPY.SPARSE
+        gsparse1 = GSparse.Gauss_seidel_sparse_matrix()
+        gsparse2 = GSparse.Gauss_seidel_sparse_matrix()
+        a = datetime.now()
+        self.csi1.mV(gsparse1.asd(self.csi1.matrix, self.csi1.vector, self.zeros1, self.tolerance, self.iterations))
+        b = datetime.now()
+        self.delta.append((b - a).__str__())
+        a = datetime.now()
+        self.csi2.mV(gsparse2.asd(self.csi1.matrix, self.csi1.vector, self.zeros1, self.tolerance, self.iterations))
+        b = datetime.now()
+        self.delta.append((b - a).__str__())
+        self.save()
 
     def jacobi(self):
         # JACOBI
         a = datetime.now()
-        self.csi1.mV(approximation.jacobi.jacobi(self.csi1.matrix, self.csi1.vector, self.zeros1, 0.00001, 1000))
+        self.csi1.mV(approximation.jacobi.jacobi(self.csi1.matrix, self.csi1.vector, self.zeros1, self.tolerance, self.iterations))
         b = datetime.now()
         self.delta.append((b - a).__str__())
-        self.csivalues.append(self.csi1.getFXfromInterpolate(-1))
         a = datetime.now()
-        self.csi2.mV(approximation.jacobi.jacobi(self.csi2.matrix, self.csi2.vector, self.zeros2, 0.00001, 1000))
+        self.csi2.mV(approximation.jacobi.jacobi(self.csi2.matrix, self.csi2.vector, self.zeros2, self.tolerance, self.iterations))
         b = datetime.now()
         self.delta.append((b - a).__str__())
-        self.csivalues.append(self.csi2.getFXfromInterpolate(-1))
-        print(self.delta)
-        print(self.csivalues)
+        self.save()
 
     def gso(self):
         # GAUSS-SEIDEL OWN SPARSE MATRIX THING
         gso1 = GSown.Gauss_seidel_own()
         gso2 = GSown.Gauss_seidel_own()
         a = datetime.now()
-        self.csi1.mV(gso1.asd(self.csi1.matrix, self.csi1.vector, self.zeros1, 0.00001, 1000))
+        self.csi1.mV(gso1.asd(self.csi1.matrix, self.csi1.vector, self.zeros1, self.tolerance, self.iterations))
         b = datetime.now()
         self.delta.append((b - a).__str__())
-        self.csivalues.append(self.csi1.getFXfromInterpolate(-1))
         a = datetime.now()
-        self.csi2.mV(gso2.asd(self.csi2.matrix, self.csi2.vector, self.zeros2, 0.00001, 1000))
+        self.csi2.mV(gso2.asd(self.csi2.matrix, self.csi2.vector, self.zeros2, self.tolerance, self.iterations))
         b = datetime.now()
         self.delta.append((b - a).__str__())
-        self.csivalues.append(self.csi2.getFXfromInterpolate(-1))
-        print(self.delta)
-        print(self.csivalues)
+        self.save()
 
     def gs(self):
         # GAUSS-SEIDEL
         gs1 = GS.GaussSeidel()
         gs2 = GS.GaussSeidel()
         a = datetime.now()
-        self.csi1.mV(gs1.asd(self.csi1.matrix, self.csi1.vector, self.zeros1, 0.00001, 1000))
+        self.csi1.mV(gs1.asd(self.csi1.matrix, self.csi1.vector, self.zeros1, self.tolerance, self.iterations))
         b = datetime.now()
         self.delta.append((b - a).__str__())
-        self.csivalues.append(self.csi1.getFXfromInterpolate(-1))
         a = datetime.now()
-        self.csi2.mV(gs2.asd(self.csi2.matrix, self.csi2.vector, self.zeros2, 0.00001, 1000))
+        self.csi2.mV(gs2.asd(self.csi2.matrix, self.csi2.vector, self.zeros2, self.tolerance, self.iterations))
         b = datetime.now()
         self.delta.append((b - a).__str__())
-        self.csivalues.append(self.csi2.getFXfromInterpolate(-1))
-        print(self.delta)
-        print(self.csivalues)
+        self.save()
 
     def pg(self):
         # PARTIAL GAUSS
@@ -82,20 +91,26 @@ class Test:
         b = datetime.now()
         self.delta.append((b - a).__str__())
         self.csi1.mV(pg1.vector)
-        self.csivalues.append(self.csi1.getFXfromInterpolate(-1))
         pg2 = mm.MyMatrix(self.csi2.matrix, self.zeros2)
         a = datetime.now()
         pg2.gaussPartial()
         b = datetime.now()
         self.delta.append((b - a).__str__())
         self.csi2.mV(pg2.vector)
-        self.csivalues.append(self.csi2.getFXfromInterpolate(-1))
-        print(self.delta)
-        print(self.csivalues)
+        self.save()
 
     def save(self):
-        plik = open(self.result, 'w', encoding='utf-8')
-        plik.close()
+        self.result.write(self.nazwatestu)
+        self.result.write("\n")
+        self.result.write(self.delta.__str__())
+        self.result.write("\n")
+        self.result.write(self.differences().__str__())
+        self.result.write("\n")
+        self.result.close()
+        self.xy1.write(self.csi1.points.__str__())
+        self.xy2.write(self.csi2.points.__str__())
+        self.xy1.close()
+        self.xy2.close()
 
     def differences(self):
         array = []
@@ -103,14 +118,17 @@ class Test:
         for i in range (1, len(self.csi1.points), 2):
             array.append(self.csi1.points[i])
         for i in range (0, len(array)):
-            print(self.csi2.getFXfromInterpolate(array[i][0]))
-            print(self.csi1.getFXfromInterpolate(array[i][0]))
+            x = self.csi1.getFXfromInterpolate(array[i][0])
+            d = abs(self.csi2.getFXfromInterpolate(array[i][0]) - x) / x
+            suma += d
+        suma /= len(array)
+        return suma
 
     def range_clean(self, ref, arr):
         max_x = max(x[0] for x in ref)
         min_x = min(x[0] for x in ref)
-        print(min_x)
-        print(max_x)
+        # print(min_x)
+        # print(max_x)
         arr = [x for x in arr if min_x <= x[0] <= max_x]
-        print(arr)
+        # print(arr)
         return arr

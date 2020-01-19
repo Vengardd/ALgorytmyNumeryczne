@@ -18,6 +18,7 @@ class Test:
         self.csivalues = []
         self.array1 = parserek(self.data)
         self.array2 = clean(numpy.copy(self.array1).tolist())
+        self.array2 = self.range_clean(self.array1, self.array2)
         self.csi1 = approximation.csi_domi.CSI_domi(self.array1)
         self.csi2 = approximation.csi_domi.CSI_domi(self.array2)
         self.zeros1 = [0 for i in range(0, len(self.csi1.matrix))]
@@ -104,3 +105,12 @@ class Test:
         for i in range (0, len(array)):
             print(self.csi2.getFXfromInterpolate(array[i][0]))
             print(self.csi1.getFXfromInterpolate(array[i][0]))
+
+    def range_clean(self, ref, arr):
+        max_x = max(x[0] for x in ref)
+        min_x = min(x[0] for x in ref)
+        print(min_x)
+        print(max_x)
+        arr = [x for x in arr if min_x <= x[0] <= max_x]
+        print(arr)
+        return arr

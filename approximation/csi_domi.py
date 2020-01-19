@@ -53,7 +53,7 @@ class CSI_domi:
 
     def getIndexOfX(self, x):
         for i in range(1, len(self.points)):
-            if x <= self.points[i][0]:
+            if abs(x) <= abs(self.points[i][0]):
                 return i - 1
 
 

@@ -20,7 +20,7 @@ class Als:
         Au = self.createAu(Uip, len(P), lambd)
         mymatrix = MyMatrix(Au, vector, None)
         mymatrix.gaussPartial()
-        U = self.setColumnFromGauss(U, mymatrix.resultsGeneratedInGauss, userNumber)
+        U = self.setColumnFromGauss(U, mymatrix.resultsFromFullMatrix, userNumber)
         return U
 
     def createIu(self, input, userNumber):
@@ -65,7 +65,7 @@ class Als:
         Au = self.createAu(Piu, len(P), lambd)
         mymatrix = MyMatrix(Au, vector, None)
         mymatrix.gaussPartial()
-        P = self.setColumnFromGauss(P, mymatrix.resultsGeneratedInGauss, productNumber)
+        P = self.setColumnFromGauss(P, mymatrix.resultsFromFullMatrix, productNumber)
         return P
 
     def createIp(self, input, productNumber):

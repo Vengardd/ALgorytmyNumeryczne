@@ -1,6 +1,6 @@
 # KOD: Marta Rybarczyk
 # 50/300/1100
-from implementation.test import Test
+from approximation.test import Test
 
 d1 = [1, 2, 3, 4, 5]
 d2 = [6, 12, 18, 24, 30]

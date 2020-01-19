@@ -7,7 +7,11 @@ class CSI_domi:
         self.points = points
         self.matrix = np.zeros((len(self.points), len(self.points)))
         self.vector = np.zeros(len(self.points))
+        self.mVector = None
         self.fill()
+
+    def mV(self, res):
+        self.mVector = res
 
     def fill(self):
         self.matrix[0][0] = 2
@@ -40,11 +44,34 @@ class CSI_domi:
     def h(self, j):
         return self.points[j][0] - self.points[j - 1][0]
 
-    #
-    # y_points = [24, 25, 23, 20, 16]
-    # x_points = [12, 13, 14, 15, 16]
+    def getFXfromInterpolate(self, x):
+        i = self.getIndexOfX(x)
+        diff = x - self.points[i][0]
+        value = self.a(i) + (self.b(i) * diff) + (self.c(i) * diff * diff) + (self.d(i) * diff * diff * diff)
+        return value
 
 
-csiPoints = [[12, 24], [13, 25], [14, 23], [15, 20], [16, 16]]
-csiObject = CSI_domi(csiPoints)
-print(csiObject.matrix)
+    def getIndexOfX(self, x):
+        for i in range(1, len(self.points)):
+            if x <= self.points[i][0]:
+                return i - 1
+
+
+    def a(self, j):
+        return self.fx(j)
+
+
+    def b(self, j):
+        p1 = (self.fx(j + 1) - self.fx(j)) / self.h(j + 1)
+        p2 = (2 * self.mVector[j])
+        return p1 - p2 * self.h(j + 1)
+
+
+    def c(self, j):
+        return self.vector[j] / 2
+
+
+    def d(self, j):
+        numerator = self.mVector[j + 1] - self.mVector[j]
+        denominator = 6 * self.h(j + 1)
+        return numerator / denominator

@@ -2,18 +2,13 @@ import numpy
 
 
 class MyMatrix:
-    def __init__(self, matrix, vector, results):
+    def __init__(self, matrix, vector):
         self.matrix = matrix
         self.size = len(matrix[0])
         self.vector = vector
-        self.resultsGeneratedIncreateMatrix = results
-        self.resultsGeneratedInGauss = [0 for i in range(0, self.size)]
-
-    def __copy__(self):
-        return MyMatrix(self.matrix[:], self.vector[:], self.resultsGeneratedIncreateMatrix[:])
-
-    def printResults(self):
-        print(numpy.subtract(self.resultsGeneratedInGauss, self.resultsGeneratedIncreateMatrix))
+        self.vector2 = vector
+        self.what = matrix
+        self.resultsFromFullMatrix = matrix
 
     def __str__(self) -> str:
         for i in range(0, self.size):
@@ -52,8 +47,8 @@ class MyMatrix:
         for i in range (self.size-1, -1, -1):
             foo = self.vector[i]
             for j in range(i+1, self.size):
-                foo -= (self.matrix[i][j] * self.resultsGeneratedInGauss[j])
-            self.resultsGeneratedInGauss[i] = foo / self.matrix[i][i]
+                foo -= (self.matrix[i][j] * self.resultsFromFullMatrix[j])
+            self.resultsFromFullMatrix[i] = foo / self.matrix[i][i]
 
     def gaussPartial(self):
         foo = [0 for i in range(0, self.size)]
@@ -82,8 +77,8 @@ class MyMatrix:
         for i in range(self.size-1, -1, -1):
             foo = self.vector[pointers[i]]
             for j in range(i+1, self.size):
-                foo -= (self.matrix[pointers[i]][j] * self.resultsGeneratedInGauss[j])
-            self.resultsGeneratedInGauss[i] = foo / self.matrix[pointers[i]][i]
+                foo -= (self.matrix[pointers[i]][j] * self.resultsFromFullMatrix[j])
+            self.resultsFromFullMatrix[i] = foo / self.matrix[pointers[i]][i]
 
     # https://au.mathworks.com/matlabcentral/fileexchange/13451-gauss-elimination-with-complete-pivoting
     def gaussComplete(self):
@@ -116,8 +111,8 @@ class MyMatrix:
         for i in range(n - 1, -1, -1):
             foo = self.vector[rows[i]]
             for j in range(i + 1, n):
-                foo -= (matrix[rows[i]][columns[j]] * self.resultsGeneratedInGauss[columns[j]])
-            self.resultsGeneratedInGauss[columns[i]] = foo / matrix[rows[i]][columns[i]]
+                foo -= (matrix[rows[i]][columns[j]] * self.resultsFromFullMatrix[columns[j]])
+            self.resultsFromFullMatrix[columns[i]] = foo / matrix[rows[i]][columns[i]]
 
 
 

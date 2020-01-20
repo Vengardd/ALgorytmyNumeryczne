@@ -27,7 +27,14 @@ def parserek(filename):
     plik.close()
     return ostatnia
 
-def clean(something):
-    var = int(len(something)/2) * -1
-    cleaned = something[:var]
+# def clean(something):
+#     var = int(len(something)/2) * -1
+#     cleaned = something[:var]
+#     return cleaned
+
+def clean(arrayToCopyFrom):
+    cleaned = []
+    for i in range(1, len(arrayToCopyFrom) - 3):
+        if i % 2 == 0:
+            cleaned.append(arrayToCopyFrom[i])
     return cleaned

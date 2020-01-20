@@ -113,17 +113,17 @@ class Test:
         self.xy2.close()
 
     def differences(self):
-        array = []
+        differenceArrayFromFullAndPartial = [item for item in self.array1 if item not in self.array2]
         suma = 0
-        for i in range (1, len(self.csi1.points), 2):
-            array.append(self.csi1.points[i])
-        for i in range (0, len(array)):
-            x = self.csi1.getFXfromInterpolate(array[i][0])
-            print(array[i][0])
+        # self.csi1.points.sort()
+        # self.csi2.points.sort()
+        for i in range(0, len(differenceArrayFromFullAndPartial) - 4):
+            x = self.csi1.getFXfromInterpolate(differenceArrayFromFullAndPartial[i][0])
+            print(differenceArrayFromFullAndPartial[i][0])
             print(self.csi2.points)
-            d = abs(self.csi2.getFXfromInterpolate(array[i][0]) - x) / x
+            d = abs(self.csi2.getFXfromInterpolate(differenceArrayFromFullAndPartial[i][0]) - x) / x
             suma += d
-        suma /= len(array)
+        suma /= len(differenceArrayFromFullAndPartial)
         return suma
 
     def range_clean(self, ref, arr):

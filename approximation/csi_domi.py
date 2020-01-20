@@ -50,11 +50,22 @@ class CSI_domi:
         value = self.a(i) + (self.b(i) * diff) + (self.c(i) * diff * diff) + (self.d(i) * diff * diff * diff)
         return value
 
+    # Nie jestem tego pewna - Dominika
 
     def getIndexOfX(self, x):
         for i in range(1, len(self.points)):
             if x <= self.points[i][0]:
                 return i - 1
+
+        '''if self.points[0][0] < self.points[1][0]:
+            for i in range(1, len(self.points)):
+                if x <= self.points[i][0]:
+                    return i - 1
+        else:
+            for i in range(1, len(self.points)):
+                if x >= self.points[i][0]:
+                    return i - 1'''
+
 
 
     def a(self, j):

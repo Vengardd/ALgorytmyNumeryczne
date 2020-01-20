@@ -19,7 +19,7 @@ class Test:
         self.delta = []
         self.array1 = parserek(filename)
         self.array2 = clean(numpy.copy(self.array1).tolist())
-        self.array2 = self.range_clean(self.array1, self.array2)
+        # self.array2 = self.range_clean(self.array1, self.array2)
         self.csi1 = approximation.csi_domi.CSI_domi(self.array1)
         self.csi2 = approximation.csi_domi.CSI_domi(self.array2)
         self.zeros1 = [0 for i in range(0, len(self.csi1.matrix))]
@@ -119,6 +119,8 @@ class Test:
             array.append(self.csi1.points[i])
         for i in range (0, len(array)):
             x = self.csi1.getFXfromInterpolate(array[i][0])
+            print(array[i][0])
+            print(self.csi2.points)
             d = abs(self.csi2.getFXfromInterpolate(array[i][0]) - x) / x
             suma += d
         suma /= len(array)

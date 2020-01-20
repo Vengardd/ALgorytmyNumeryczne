@@ -28,5 +28,6 @@ def parserek(filename):
     return ostatnia
 
 def clean(something):
-    something = something[::2]
-    return something
+    var = int(len(something)/2) * -1
+    cleaned = something[:var]
+    return cleaned

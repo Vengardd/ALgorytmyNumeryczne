@@ -4,6 +4,7 @@ from scipy.sparse import csr_matrix
 class Gauss_seidel_sparse_matrix:
 
     def asd(self, inputMatrix, matrixSolution, xo, tolerance, numberOfIterations):
+        inputMatrix = csr_matrix(inputMatrix)
         x = [None] * len(matrixSolution)
         n = len(matrixSolution)
         for k in range(0, numberOfIterations):

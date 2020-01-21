@@ -2,7 +2,7 @@
 # b - matrix solution
 # t - Tolerance
 # IT - max number of iterations
-# xo - initial (or one of next) guess (zera?)
+# xo - initial (or one of next) guess
 import math
 
 

@@ -1,9 +1,6 @@
 # https://google-developers.appspot.com/maps/documentation/javascript/examples/elevation-paths?fbclid=IwAR1aoYmvwJlAaSxU77leHBUJAdb-VT_cSkVr2Z3G6A5VsSEip3aA9qWFZtg
 import geopy.distance
 import re
-import approximation.csi_domi
-import approximation.jacobi
-import approximation.GS as GS
 
 def parserek(filename):
     tablica = []

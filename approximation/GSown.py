@@ -1,5 +1,3 @@
-from collections import namedtuple
-
 import numpy
 
 class Gauss_seidel_own:

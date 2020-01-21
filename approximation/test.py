@@ -1,5 +1,3 @@
-# KOD: Marta Rybarczyk
-
 from datetime import datetime
 from approximation.Parser import parserek
 from approximation.Parser import clean
@@ -9,13 +7,13 @@ import numpy
 import approximation.GSown as GSown
 import approximation.GS as GS
 import approximation.GaussSeidelScipyParse as GSparse
+import approximation.csi_domi
+import approximation.jacobi
 
 class Test:
 
-    def __init__(self, filename, result, xy1, xy2, tolerance, iterations, name):
+    def __init__(self, filename, result, tolerance, iterations, name):
         self.result = open(result, 'a', encoding='utf-8')
-        self.xy1 = open(xy1, 'a', encoding='utf-8')
-        self.xy2 = open(xy2, 'a', encoding='utf-8')
         self.delta = []
         self.fn = filename
         self.array1 = parserek(filename)
@@ -120,8 +118,6 @@ class Test:
         self.result.write("\n")
         self.result.write(self.differences().__str__())
         self.result.write("\n")
-        self.xy1.write(self.csi1.points.__str__())
-        self.xy2.write(self.csi2.points.__str__())
         self.result.write("\n")
 
     def differences(self):

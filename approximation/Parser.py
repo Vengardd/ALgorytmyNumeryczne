@@ -20,18 +20,12 @@ def parserek(filename):
     kolejnatablica = [0 for i in range (0, len(coords_2))]
     for i in range(0, len(coords_1)):
         kolejnatablica[i] = abs(geopy.distance.distance((coords_1[0], coords_2[0]), ((coords_1[i], coords_2[i]))).km)
-        print(kolejnatablica[i])
     ostatnia = [[0 for i in range(0, 2)] for j in range(0, len(elevation))]
     for i in range(0, len(elevation)):
         ostatnia[i][0] = kolejnatablica[i]
         ostatnia[i][1] = elevation[i]
     plik.close()
     return ostatnia
-
-# def clean(something):
-#     var = int(len(something)/2) * -1
-#     cleaned = something[:var]
-#     return cleaned
 
 def clean(arrayToCopyFrom):
     cleaned = []
